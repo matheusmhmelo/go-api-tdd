@@ -37,9 +37,9 @@ func Test_Save(t *testing.T) {
 
 	receiverID := "abc"
 	c := Credentials{
-		clientID:       "123",
-		organizationID: "456",
-		ssID:           "xyv",
+		ClientID:            "123",
+		OrganizationID:      "456",
+		SoftwareStatementID: "xyv",
 	}
 
 	err := s.Save(context.Background(), receiverID, c)
@@ -56,9 +56,9 @@ func Test_Save_Error(t *testing.T) {
 
 	receiverID := "abc"
 	c := Credentials{
-		clientID:       "123",
-		organizationID: "456",
-		ssID:           "xyv",
+		ClientID:            "123",
+		OrganizationID:      "456",
+		SoftwareStatementID: "xyv",
 	}
 
 	err := s.Save(context.Background(), receiverID, c)

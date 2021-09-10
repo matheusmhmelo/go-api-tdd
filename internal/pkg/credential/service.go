@@ -10,12 +10,6 @@ type Service struct {
 	database database
 }
 
-type Credentials struct {
-	clientID       string
-	organizationID string
-	ssID           string
-}
-
 func NewService(db database) *Service {
 	return &Service{
 		database: db,
@@ -26,8 +20,8 @@ func (s *Service) Save(ctx context.Context, receiverID string, c Credentials) er
 	return s.database.WriteCredentials(
 		ctx,
 		receiverID,
-		c.clientID,
-		c.organizationID,
-		c.ssID,
+		c.ClientID,
+		c.OrganizationID,
+		c.SoftwareStatementID,
 	)
 }
