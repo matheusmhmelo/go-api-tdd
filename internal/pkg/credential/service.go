@@ -15,3 +15,7 @@ func NewService(db database) *Service {
 		database: db,
 	}
 }
+
+func (s *Service) Save(ctx context.Context, receiverID, clientID, organizationID, ssID string) error {
+	return s.database.WriteCredentials(ctx, receiverID, clientID, organizationID, ssID)
+}
