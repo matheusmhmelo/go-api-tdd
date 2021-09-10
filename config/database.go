@@ -9,11 +9,11 @@ import (
 )
 
 const (
-	databaseHost                  = "DATABASE_HOST"
-	databasePort                  = "DATABASE_PORT"
-	databaseName                  = "DATABASE_NAME"
-	databaseUser                  = "DATABASE_USER"
-	databasePassword              = "DATABASE_PASSWORD"
+	databaseHost     = "DATABASE_HOST"
+	databasePort     = "DATABASE_PORT"
+	databaseName     = "DATABASE_NAME"
+	databaseUser     = "DATABASE_USER"
+	databasePassword = "DATABASE_PASSWORD"
 )
 
 func NewDatabaseConn(ctx context.Context) *pgx.Conn {

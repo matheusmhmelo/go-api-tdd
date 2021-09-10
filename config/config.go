@@ -11,4 +11,3 @@ func Init() {
 
 	viper.AutomaticEnv()
 }
-
