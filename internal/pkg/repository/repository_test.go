@@ -33,12 +33,9 @@ func TestDatabase_WriteCredentials(t *testing.T) {
 	organizationID := "456"
 	ssID := "xyv"
 
-	mock.ExpectBegin()
 	mock.ExpectExec("INSERT INTO credentials").
 		WithArgs(receiverID, clientID, organizationID, ssID).
 		WillReturnResult(pgxmock.NewResult("INSERT", 1))
-	mock.ExpectCommit()
-	mock.ExpectRollback()
 
 	err := db.WriteCredentials(context.Background(), receiverID, clientID, organizationID, ssID)
 	if err != nil {
@@ -56,12 +53,9 @@ func TestDatabase_WriteCredentials_Errors(t *testing.T) {
 		organizationID := "456"
 		ssID := "xyv"
 
-		mock.ExpectBegin()
 		mock.ExpectExec("INSERT INTO credentials").
 			WithArgs(receiverID, clientID, organizationID, ssID).
 			WillReturnError(errors.New("unknown error"))
-		mock.ExpectCommit()
-		mock.ExpectRollback()
 
 		err := db.WriteCredentials(context.Background(), receiverID, clientID, organizationID, ssID)
 		if err == nil {
@@ -77,12 +71,9 @@ func TestDatabase_WriteCredentials_Errors(t *testing.T) {
 		organizationID := "456"
 		ssID := "xyv"
 
-		mock.ExpectBegin()
 		mock.ExpectExec("INSERT INTO credentials").
 			WithArgs(receiverID, clientID, organizationID, ssID).
 			WillReturnError(&pgconn.PgError{Code: pgerrcode.UniqueViolation})
-		mock.ExpectCommit()
-		mock.ExpectRollback()
 
 		err := db.WriteCredentials(context.Background(), receiverID, clientID, organizationID, ssID)
 		if err == nil {
