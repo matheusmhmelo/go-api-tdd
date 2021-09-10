@@ -36,11 +36,13 @@ func Test_Save(t *testing.T) {
 	s := NewService(&db)
 
 	receiverID := "abc"
-	clientID := "123"
-	organizationID := "456"
-	ssID := "xyv"
+	c := Credentials{
+		clientID:       "123",
+		organizationID: "456",
+		ssID:           "xyv",
+	}
 
-	err := s.Save(context.Background(), receiverID, clientID, organizationID, ssID)
+	err := s.Save(context.Background(), receiverID, c)
 	if err != nil {
 		t.Errorf("s.Save expected nil, got error: %s", err)
 	}
@@ -53,11 +55,13 @@ func Test_Save_Error(t *testing.T) {
 	s := NewService(&db)
 
 	receiverID := "abc"
-	clientID := "123"
-	organizationID := "456"
-	ssID := "xyv"
+	c := Credentials{
+		clientID:       "123",
+		organizationID: "456",
+		ssID:           "xyv",
+	}
 
-	err := s.Save(context.Background(), receiverID, clientID, organizationID, ssID)
+	err := s.Save(context.Background(), receiverID, c)
 	if err == nil {
 		t.Error("s.Save expected error, got nil")
 	}
