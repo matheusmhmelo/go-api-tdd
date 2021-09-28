@@ -4,6 +4,7 @@ go 1.16
 
 require (
 	github.com/go-test/deep v1.0.7
+	github.com/google/uuid v1.3.0 // indirect
 	github.com/gorilla/mux v1.8.0
 	github.com/jackc/pgconn v1.10.0
 	github.com/jackc/pgerrcode v0.0.0-20201024163028-a0d42d470451
