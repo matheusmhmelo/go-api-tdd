@@ -14,17 +14,30 @@ func (f stubDb) WriteCredentials(ctx context.Context, id uuid.UUID, receiverID, 
 }
 
 func Test_Save(t *testing.T) {
-	db := stubDb(func(_ context.Context, _ uuid.UUID, _, _, _, _ string) error {
-		return nil
-	})
-	s := NewService(&db)
-
 	receiverID := "abc"
 	c := Credentials{
 		ClientID:            "123",
 		OrganizationID:      "456",
 		SoftwareStatementID: "xyv",
 	}
+
+	id := uuid.New()
+	spyUuid := func() uuid.UUID {
+		return id
+	}
+
+	db := stubDb(func(_ context.Context, rId uuid.UUID, rRID, rCID, rOID, rSSID string) error {
+		if id != rId ||
+			receiverID != rRID ||
+			c.ClientID != rCID ||
+			c.OrganizationID != rOID ||
+			c.SoftwareStatementID != rSSID {
+			t.Fatal("Database received unexpected values")
+		}
+		return nil
+	})
+
+	s := NewService(&db, spyUuid)
 
 	err := s.Save(context.Background(), receiverID, c)
 	if err != nil {
@@ -36,7 +49,9 @@ func Test_Save_Error(t *testing.T) {
 	db := stubDb(func(_ context.Context, _ uuid.UUID, _, _, _, _ string) error {
 		return errors.New("error")
 	})
-	s := NewService(&db)
+	s := NewService(&db, func() uuid.UUID {
+		return uuid.New()
+	})
 
 	receiverID := "abc"
 	c := Credentials{

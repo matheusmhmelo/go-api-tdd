@@ -11,16 +11,18 @@ type database interface {
 
 type Service struct {
 	database database
+	id func() uuid.UUID
 }
 
-func NewService(db database) *Service {
+func NewService(db database, id func() uuid.UUID) *Service {
 	return &Service{
 		database: db,
+		id: id,
 	}
 }
 
 func (s *Service) Save(ctx context.Context, receiverID string, c Credentials) error {
-	var id uuid.UUID
+	id := s.id()
 
 	return s.database.WriteCredentials(
 		ctx,
