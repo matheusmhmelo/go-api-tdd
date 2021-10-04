@@ -10,7 +10,6 @@ import (
 	"io"
 	"net/http"
 	"net/http/httptest"
-	"reflect"
 	"testing"
 )
 
@@ -18,22 +17,6 @@ type stubService func(ctx context.Context, receiverID string, c credential.Crede
 
 func (s stubService) Save(ctx context.Context, receiverID string, c credential.Credentials) error {
 	return s(ctx, receiverID, c)
-}
-
-func Test_NewCredential(t *testing.T) {
-	s := stubService(func(_ context.Context, _ string, _ credential.Credentials) error {
-		return nil
-	})
-
-	want := Credential{
-		service: &s,
-	}
-
-	got := NewCredential(&s)
-
-	if !reflect.DeepEqual(*got, want) {
-		t.Errorf("got != want: %+v != %+v", got, want)
-	}
 }
 
 func TestCredential_Create(t *testing.T) {

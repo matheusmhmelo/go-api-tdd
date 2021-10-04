@@ -18,9 +18,9 @@ func main() {
 	conn := config.NewDatabaseConn(context.Background())
 	db := repository.NewDatabase(conn)
 	service := credential.NewService(db, uuid.New)
-	cred := handler.NewCredential(service)
+	h := handler.NewCredential(service)
 
-	router := server.NewRouter(cred)
+	router := server.NewRouter(h)
 
 	log.Println("waiting requests...")
 	log.Fatal(http.ListenAndServe(":8080", router))

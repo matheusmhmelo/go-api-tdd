@@ -6,8 +6,6 @@ import (
 	"github.com/google/uuid"
 	"testing"
 
-	"github.com/jackc/pgconn"
-	"github.com/jackc/pgerrcode"
 	"github.com/pashagolub/pgxmock"
 )
 
@@ -45,25 +43,6 @@ func TestDatabase_WriteCredentials_Errors(t *testing.T) {
 		mock.ExpectExec("INSERT INTO credentials").
 			WithArgs(id, receiverID, clientID, organizationID, ssID).
 			WillReturnError(errors.New("unknown error"))
-
-		err := db.WriteCredentials(context.Background(), id, receiverID, clientID, organizationID, ssID)
-		if err == nil {
-			t.Error("db.WriteCredentials expected error, got nil")
-		}
-	})
-	t.Run("Credentials Already Exists", func(t *testing.T) {
-		mock, _ := pgxmock.NewConn()
-		db := NewDatabase(mock)
-
-		id := uuid.New()
-		receiverID := "abc"
-		clientID := "123"
-		organizationID := "456"
-		ssID := "xyv"
-
-		mock.ExpectExec("INSERT INTO credentials").
-			WithArgs(id, receiverID, clientID, organizationID, ssID).
-			WillReturnError(&pgconn.PgError{Code: pgerrcode.UniqueViolation})
 
 		err := db.WriteCredentials(context.Background(), id, receiverID, clientID, organizationID, ssID)
 		if err == nil {
